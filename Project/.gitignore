@@ -41,9 +41,6 @@
 *.apk
 *.unitypackage
 *.app
-*.exe
-*.x86_64
-*.x86
 
 # Plugins
 /Assets/VideoRecorder*
@@ -58,7 +55,6 @@
 *.idea/
 *.iml
 *.cache
-*/build/
 */dist/
 *.egg-info*
 *.eggs*
