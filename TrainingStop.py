@@ -1,8 +1,8 @@
 import subprocess, signal, re, time # standard library imports
 
-THRESHOLD = 4.632   #treshold we want to test. Right now it is only mean reward. We need to decide on how ot measure treshold
+THRESHOLD = 4.455  #treshold we want to test. Right now it is only mean reward. We need to decide on how ot measure treshold
 # if you change the treshold, change the run id name in CDM too
-CMD=["mlagents-learn","config/ppo/PushBlock.yaml","--run-id","treshold4.632Run"] # commands needed to run the training
+CMD=["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id","treshold4.455Run","--no-graphics"] # commands needed to run the training
 
 # we use .re to look for the pattern described under so that we can track the Mean reward
 pattern=re.compile(r"Mean Reward: (\d+\.\d+)") #  reads format "Mean reward: 4.521" for example
