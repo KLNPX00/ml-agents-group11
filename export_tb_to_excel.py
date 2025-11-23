@@ -9,11 +9,16 @@ if len(sys.argv) > 1:
     ITERATION = sys.argv[1]  # example: "4.50"
 else:
     ITERATION = "default"
+# Correct: relative directory inside your project
+RESULT_DIR = "excel_results"
 
+# Create directory if missing
+if not os.path.isdir(RESULT_DIR):
+    os.mkdir(RESULT_DIR)
 
 
 LOGDIR = f"results/threshold{ITERATION}Run/PushBlock"   # <-- adjust to your actual run folder
-OUTFILE = f"selected_training_data_threshold{ITERATION}.xlsx"
+OUTFILE = f"excel_results/selected_training_data_threshold{ITERATION}.xlsx"
 STEP_BIN = 5000                     # window size for mean/std aggregation
 
 # find all event files in the run
@@ -66,17 +71,14 @@ df["step_bin"] = (df["step"] // STEP_BIN) * STEP_BIN
 agg = df.groupby("step_bin").agg(
     **{
         "Mean Reward": ("value", "mean"),
-        "Std of Reward": ("value", "std"),
-        # pick the earliest timestamp in the bin as representative elapsed time
-        "Time Elapsed (s)": ("time_elapsed_s", "min"),
+
     }
 ).reset_index().rename(columns={"step_bin": "Step"})
 
-# handle bins with a single sample (std = NaN) -> set to 0.0
-agg["Std of Reward"] = agg["Std of Reward"].fillna(0.0)
+
 
 # write to Excel (single sheet)
-agg[["Step", "Time Elapsed (s)", "Mean Reward", "Std of Reward"]].to_excel(
+agg[["Step","Mean Reward"]].to_excel(
     OUTFILE, index=False, engine="openpyxl"
 )
 
