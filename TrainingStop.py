@@ -40,7 +40,7 @@ def run_training(threshold):
 
                 print(f"📊 Exporting metrics for threshold {threshold:.2f}...")
                 subprocess.run(
-                    ["python", "export_selected_metrics_computed_to_excel.py", f"{threshold:.2f}"],
+                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}"],
                     check=False
                 )
                 print(f"✔ Excel file saved for threshold {threshold:.2f}")
