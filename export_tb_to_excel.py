@@ -12,7 +12,7 @@ else:
 
 
 ITERATION = 0
-LOGDIR = "results/run1/PushBlock"   # <-- adjust to your actual run folder
+LOGDIR = f"results/threshold{ITERATION}Run/PushBlock"   # <-- adjust to your actual run folder
 OUTFILE = f"selected_training_data_threshold{ITERATION}.xlsx"
 STEP_BIN = 5000                     # window size for mean/std aggregation
 
