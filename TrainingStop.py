@@ -13,6 +13,9 @@ UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.a
 def run_training(threshold):
     # checks OS env
     now = math.floor(time.time())
+    if threshold >= 4.95:
+        threshold = 4.3
+
     if os.name == "nt":
         cmd = [arg.replace("{THRESHOLD}_t_{TIMESTAMP}", f"{threshold:.2f}_t_{now}") for arg in WIN_CMD]
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
