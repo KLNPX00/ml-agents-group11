@@ -2,9 +2,18 @@
 import os, glob, math
 import pandas as pd
 from tensorboard.backend.event_processing import event_accumulator
+import sys
 
+# If a threshold is passed as a CLI argument
+if len(sys.argv) > 1:
+    ITERATION = sys.argv[1]  # example: "4.50"
+else:
+    ITERATION = "default"
+
+
+ITERATION = 0
 LOGDIR = "results/run1/PushBlock"   # <-- adjust to your actual run folder
-OUTFILE = "selected_training_data.xlsx"
+OUTFILE = f"selected_training_data_threshold{ITERATION}.xlsx"
 STEP_BIN = 5000                     # window size for mean/std aggregation
 
 # find all event files in the run

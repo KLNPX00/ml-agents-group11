@@ -38,7 +38,15 @@ def run_training(threshold):
                 except subprocess.TimeoutExpired:
                     p.kill()
 
+                print(f"📊 Exporting metrics for threshold {threshold:.2f}...")
+                subprocess.run(
+                    ["python", "export_selected_metrics_computed_to_excel.py", f"{threshold:.2f}"],
+                    check=False
+                )
+                print(f"✔ Excel file saved for threshold {threshold:.2f}")
+
                 run_training(threshold + 0.05)
+
                 return  # makes sure we exist the curr run to avoid crazy nesting
 
     # same safety net as before
