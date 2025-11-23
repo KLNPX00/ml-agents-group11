@@ -7,6 +7,7 @@ import sys
 # If a threshold is passed as a CLI argument
 if len(sys.argv) > 1:
     ITERATION = sys.argv[1]  # example: "4.50"
+    TIMESTAMP = sys.argv[2]
 else:
     ITERATION = "default"
 # Correct: relative directory inside your project
@@ -17,8 +18,8 @@ if not os.path.isdir(RESULT_DIR):
     os.mkdir(RESULT_DIR)
 
 
-LOGDIR = f"results/threshold{ITERATION}Run/PushBlock"   # <-- adjust to your actual run folder
-OUTFILE = f"excel_results/selected_training_data_threshold{ITERATION}.xlsx"
+LOGDIR = f"results/threshold_{ITERATION}_t_{TIMESTAMP}/PushBlock"   # <-- adjust to your actual run folder
+OUTFILE = f"excel_results/selected_training_data_threshold_{ITERATION}_t_{TIMESTAMP}.xlsx"
 STEP_BIN = 5000                     # window size for mean/std aggregation
 
 # find all event files in the run

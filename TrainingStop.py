@@ -1,22 +1,26 @@
 import subprocess, signal, re, os
+import time, math
 
-THRESHOLD = 4.5
+THRESHOLD = 4.3
+TIMESTAMP = math.floor(time.time())
+
 pattern = re.compile(r"Mean Reward: (\d+\.\d+)")
 
-WIN_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id=threshold{THRESHOLD}Run","--no-graphics",]
-UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.app","--run-id=threshold{THRESHOLD}Run","--no-graphics",]
+WIN_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics",]
+UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.app","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port=6008"]
 
 # recursive method
 def run_training(threshold):
     # checks OS env
+    now = math.floor(time.time())
     if os.name == "nt":
-        cmd = [arg.replace("{THRESHOLD}", f"{threshold:.2f}") for arg in WIN_CMD]
+        cmd = [arg.replace("{THRESHOLD}_t_{TIMESTAMP}", f"{threshold:.2f}_t_{now}") for arg in WIN_CMD]
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
     else:
-        cmd = [arg.replace("{THRESHOLD}", f"{threshold:.2f}") for arg in UNIX_CMD]
+        cmd = [arg.replace("{THRESHOLD}_t_{TIMESTAMP}", f"{threshold:.2f}_t_{now}") for arg in UNIX_CMD]
         creationflags = 0
 
-    print(f"Starting training with threshold {threshold:.2f}")
+    print(f"Starting training with threshold {threshold:.2f}, timestamp: {now}")
     p = subprocess.Popen( cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,bufsize=1, creationflags=creationflags )
 
     # same code as before just with OS validation
@@ -25,8 +29,7 @@ def run_training(threshold):
             print(line, end="")
             match = pattern.search(line)
             if match and float(match.group(1)) >= threshold:
-                print(f"Mean Reward has reached {threshold:.2f}, stopping training.")
-
+                print(f"Mean Reward has reached {threshold:.2f}, stopping training. timestamp: {now}.")
 
                 if os.name == "nt":
                     p.send_signal(signal.CTRL_BREAK_EVENT)
@@ -40,7 +43,7 @@ def run_training(threshold):
 
                 print(f"📊 Exporting metrics for threshold {threshold:.2f}...")
                 subprocess.run(
-                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}"],
+                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
                     check=False
                 )
                 print(f"✔ Excel file saved for threshold {threshold:.2f}")
