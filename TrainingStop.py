@@ -1,26 +1,30 @@
 import subprocess, signal, re, os
 import time, math
 
-THRESHOLD = 4.3
+THRESHOLD = 4.30
 TIMESTAMP = math.floor(time.time())
-
+STARTPORT=6006
 pattern = re.compile(r"Mean Reward: (\d+\.\d+)")
 
-WIN_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics",]
-UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.app","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port=6008"]
+WIN_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
+UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.app","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
 
-# recursive method
-def run_training(threshold):
+# recursive methods
+def run_training(threshold,port):
     # checks OS env
     now = math.floor(time.time())
     if threshold >= 4.95:
         threshold = 4.3
+     
+    if port == 6006:
+        port = 6007
+    else: port=6006
 
     if os.name == "nt":
-        cmd = [arg.replace("{THRESHOLD}_t_{TIMESTAMP}", f"{threshold:.2f}_t_{now}") for arg in WIN_CMD]
+        cmd = [arg.format(THRESHOLD=f"{threshold:.2f}",TIMESTAMP=now,STARTPORT=port) for arg in WIN_CMD]
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
     else:
-        cmd = [arg.replace("{THRESHOLD}_t_{TIMESTAMP}", f"{threshold:.2f}_t_{now}") for arg in UNIX_CMD]
+        cmd = [arg.format(THRESHOLD=f"{threshold:.2f}",TIMESTAMP=now,STARTPORT=port) for arg in UNIX_CMD]
         creationflags = 0
 
     print(f"Starting training with threshold {threshold:.2f}, timestamp: {now}")
@@ -50,8 +54,8 @@ def run_training(threshold):
                     check=False
                 )
                 print(f"✔ Excel file saved for threshold {threshold:.2f}")
-
-                run_training(threshold + 0.05)
+                time.sleep(5)
+                run_training(threshold + 0.05,port)
 
                 return  # makes sure we exist the curr run to avoid crazy nesting
 
@@ -63,4 +67,4 @@ def run_training(threshold):
             p.terminate()
         p.wait()
 
-run_training(THRESHOLD)
+run_training(THRESHOLD,STARTPORT)
