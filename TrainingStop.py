@@ -18,6 +18,10 @@ def run_training(threshold,port):
     if threshold >= 4.95:
         threshold = 4.3
 
+    if port == 6006:
+        port = 6007
+    else: port=6006
+
     if os.name == "nt":#if its nt, it is windows else it is unix based
         cmd = [arg.format(THRESHOLD=f"{threshold:.2f}",TIMESTAMP=now,STARTPORT=port) for arg in WIN_CMD]
         creationflags = subprocess.CREATE_NEW_PROCESS_GROUP
