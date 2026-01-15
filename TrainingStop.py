@@ -3,7 +3,7 @@ import time, math
 
 #target threshold
 #once it is reached the program will end and start with threshold +0.05
-THRESHOLD = 4.30 
+THRESHOLD = 4.00
 TIMESTAMP = math.floor(time.time()) #timestamp used to make training files unique and avoid conflicts
 STARTPORT=6006 #starting port
 pattern = re.compile(r"Mean Reward: (\d+\.\d+)")#pattern used to check if we reached the threshold
@@ -40,7 +40,7 @@ def run_training(threshold,port):
             if match and float(match.group(1)) >= threshold:
                 print(f"Mean Reward has reached {threshold:.2f}, stopping training. timestamp: {now}.")
 
-                if os.name == "nt":
+                if os.name =="nt":
                     p.send_signal(signal.CTRL_BREAK_EVENT)
                 else:
                     os.killpg(os.getpgid(p.pid), signal.SIGTERM)
@@ -52,7 +52,7 @@ def run_training(threshold,port):
 
                 print(f"Exporting metrics for threshold {threshold:.2f}...")
                 subprocess.run(#we run the code that exports it into an excel file that will be processed further
-                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
+                    ["python", "MeanRewardTraining/export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
                     check=False
                 )
                 print(f"Excel file saved for threshold {threshold:.2f}")
@@ -63,7 +63,7 @@ def run_training(threshold,port):
 
     #another measure in case stopping the program does not work
     except KeyboardInterrupt:
-        if os.name == "nt":
+        if os.name =="nt":
             p.send_signal(signal.CTRL_BREAK_EVENT)
         else:
             p.terminate()
