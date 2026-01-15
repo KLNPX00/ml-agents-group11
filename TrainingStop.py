@@ -3,7 +3,7 @@ import time, math
 
 #target threshold
 #once it is reached the program will end and start with threshold +0.05
-THRESHOLD = 4.00
+THRESHOLD = 4.30
 TIMESTAMP = math.floor(time.time()) #timestamp used to make training files unique and avoid conflicts
 STARTPORT=6006 #starting port
 pattern = re.compile(r"Mean Reward: (\d+\.\d+)")#pattern used to check if we reached the threshold

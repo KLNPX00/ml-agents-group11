@@ -8,8 +8,6 @@ df = df.rename(columns={
     df.columns[1]: "meanReward"      
 })
 
-df = df[["nrSteps", "meanReward"]]# removes the large table
-
 #ensure numeric
 df["nrSteps"] = pd.to_numeric(df["nrSteps"], errors="coerce")
 df["meanReward"] = pd.to_numeric(df["meanReward"], errors="coerce")
