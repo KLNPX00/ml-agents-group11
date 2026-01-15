@@ -52,7 +52,7 @@ def run_training(threshold,port):
 
                 print(f"Exporting metrics for threshold {threshold:.2f}...")
                 subprocess.run(#we run the code that exports it into an excel file that will be processed further
-                    ["python", "MeanRewardTraining/export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
+                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
                     check=False
                 )
                 print(f"Excel file saved for threshold {threshold:.2f}")

@@ -18,7 +18,7 @@ if not os.path.isdir(RESULT_DIR):
 
 
 LOGDIR = f"results/threshold_{ITERATION}_t_{TIMESTAMP}/PushBlock"#here we take the data from the results folder and process it
-OUTFILE = f"/MeanRewardTraining/excel_results/selected_training_data_threshold_{ITERATION}_t_{TIMESTAMP}.xlsx"#this will be the resulting file
+OUTFILE = f"excel_results/selected_training_data_threshold_{ITERATION}_t_{TIMESTAMP}.xlsx"#this will be the resulting file
 STEP_BIN = 5000
 
 event_files = glob.glob(f"{LOGDIR}/**/events.out.tfevents.*", recursive=True)
