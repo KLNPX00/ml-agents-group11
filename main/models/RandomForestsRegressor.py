@@ -3,8 +3,12 @@ import numpy as np
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import os
 
-df = pd.read_excel('Total_data_question_2.xlsx')
+SCRIPT_DIR= os.path.dirname(os.path.abspath(__file__))#current directory
+INPUT =os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data","Total_data_question_2.xlsx"))#reaching the data by going to the data directory
+
+df = pd.read_excel(INPUT)
 
 # prepare data
 X = df[['Mean Reward']].values
@@ -19,7 +23,7 @@ print(f"\nNum of training samples: {len(X_train)}")
 print(f"Num of testing samples: {len(X_test)}")
 
 # creating and training the regressor
-rf_model = RandomForestRegressor(
+rf_model =RandomForestRegressor(
     n_estimators=100,
     max_depth=10,
     min_samples_split=5,
@@ -42,7 +46,7 @@ training_mean_abs_error = mean_absolute_error(y_train, y_pred_train)
 testing_mean_abs_error = mean_absolute_error(y_test, y_pred_test)
 
 training_root_mean_sq_error = np.sqrt(mean_squared_error(y_train, y_pred_train))
-testing_root_mean_sq_error = np.sqrt(mean_squared_error(y_test, y_pred_test))
+testing_root_mean_sq_error= np.sqrt(mean_squared_error(y_test, y_pred_test))
 
 print(f"Training accuracy {training_r2_score}")
 print(f"Validation accuracy {testing_r2_score}")
@@ -61,8 +65,8 @@ def predict_steps_for_reward(target_reward):
     prediction = rf_model.predict([[target_reward]])[0]
     return int(prediction)
 
-# example predictions
-target_rewards = [2.0, 3.0, 4.0, 5.0, 6.0]
+#example predictions
+target_rewards = [2.0,3.0, 4.0, 5.0]
 for reward in target_rewards:
     steps = predict_steps_for_reward(reward)
     print(f"To reach mean reward of {reward:.1f}: ~{steps:,} steps")

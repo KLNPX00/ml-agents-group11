@@ -6,20 +6,18 @@ import sys
 
 if len(sys.argv) > 1:
     ITERATION = sys.argv[1] #this will represent the threshold we attamepted to reach during the training
-    TIMESTAMP = sys.argv[2] #this represents the differentiator between trainings to avoid conflicts
+    TIMESTAMP =sys.argv[2] #this represents the differentiator between trainings to avoid conflicts
 else:
     ITERATION = "default"
 
-RESULT_DIR = "excel_results"#main directory where we will put our collected trainings
+DIR =os.path.dirname(os.path.abspath(__file__))#path of data_processors directory
+RESULT_DIR = os.path.join(DIR, "..","data", "excel_results")#directory where we will put our collected trainings
+os.makedirs(RESULT_DIR, exist_ok=True)#create directory if missing
 
-#create directory if missing
-if not os.path.isdir(RESULT_DIR):
-    os.mkdir(RESULT_DIR)
-
-
-LOGDIR = f"results/threshold_{ITERATION}_t_{TIMESTAMP}/PushBlock"#here we take the data from the results folder and process it
-OUTFILE = f"excel_results/selected_training_data_threshold_{ITERATION}_t_{TIMESTAMP}.xlsx"#this will be the resulting file
-STEP_BIN = 5000
+REPO_ROOT = os.path.abspath(os.path.join(DIR, "..", ".."))#this way we can access the results folder from anywhere
+LOGDIR = os.path.join( REPO_ROOT,"results",f"threshold_{ITERATION}_t_{TIMESTAMP}","PushBlock")#here we take the data from the results folder and process it
+OUTFILE= os.path.join(RESULT_DIR,f"selected_training_data_threshold_{ITERATION}_t_{TIMESTAMP}.xlsx")#this will be the resulting file
+STEP_BIN =5000
 
 event_files = glob.glob(f"{LOGDIR}/**/events.out.tfevents.*", recursive=True)
 if not event_files:

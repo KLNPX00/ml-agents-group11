@@ -1,15 +1,24 @@
-import subprocess, signal, re, os
+import subprocess
+import signal
+import re
+import os
 import time, math
+import sys
+
 
 #target threshold
 #once it is reached the program will end and start with threshold +0.05
-THRESHOLD = 4.30
+THRESHOLD = 4.00
 TIMESTAMP = math.floor(time.time()) #timestamp used to make training files unique and avoid conflicts
 STARTPORT=6006 #starting port
 pattern = re.compile(r"Mean Reward: (\d+\.\d+)")#pattern used to check if we reached the threshold
-
-WIN_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=./build/UnityEnvironment.exe","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
-UNIX_CMD = ["mlagents-learn","config/ppo/PushBlock.yaml","--env=Project/Builds.app","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
+PYTHON = sys.executable # ensures we are using the correct python(the one that has mlagents)
+DIR = os.path.dirname(os.path.abspath(__file__))
+EXPORTER =os.path.abspath(os.path.join(DIR, "..", "data_processors","export_tb_to_excel.py"))#file location for the export to excel file
+CONFIG_FILE = os.path.abspath(os.path.join(DIR, "..", "..","config","ppo","PushBlock.yaml"))#location of the config file
+ENV_PATH = os.path.abspath(os.path.join(DIR, "..", "..", "build", "UnityEnvironment.exe"))#path for the unity environment
+WIN_CMD= [PYTHON,"-m","mlagents.trainers.learn",CONFIG_FILE,f"--env={ENV_PATH}","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
+UNIX_CMD = [PYTHON,"-m","mlagents.trainers.learn",CONFIG_FILE,f"--env={ENV_PATH}","--run-id=threshold_{THRESHOLD}_t_{TIMESTAMP}","--no-graphics","--base-port={STARTPORT}"]
 
 # recursive methods
 def run_training(threshold,port):
@@ -40,7 +49,7 @@ def run_training(threshold,port):
     try:
         for line in p.stdout:
             print(line, end="")
-            match = pattern.search(line)
+            match =pattern.search(line)
             if match and float(match.group(1)) >= threshold:
                 print(f"Mean Reward has reached {threshold:.2f}, stopping training. timestamp: {now}.")
 
@@ -56,9 +65,7 @@ def run_training(threshold,port):
 
                 print(f"Exporting metrics for threshold {threshold:.2f}...")
                 subprocess.run(#we run the code that exports it into an excel file that will be processed further
-                    ["python", "export_tb_to_excel.py", f"{threshold:.2f}", f"{now}"],
-                    check=False
-                )
+                    [sys.executable, EXPORTER, f"{threshold:.2f}", f"{now}"],check=False)
                 print(f"Excel file saved for threshold {threshold:.2f}")
                 time.sleep(5)#added time between trainings if we want to stop the training manually without issues
                 run_training(threshold + 0.05,port+1)
