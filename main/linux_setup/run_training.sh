@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# The aim of this file is to run a single training based on a YAML configuration file
+# It also takes into account edge cases like system crash by marking completed trains
+# as .done, so the system can restart with no redundancy.
+
 # These are command-line parameters
 CONFIG_FOLDER="$1"
 TRAINING_FILE="$2"
