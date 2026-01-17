@@ -1,0 +1,25 @@
+behaviors:
+  PushBlock:
+    hyperparameters:
+      batch_size: 855
+      beta: 0.01
+      buffer_size: 13660
+      epsilon: 0.3
+      lambd: 0.99
+      learning_rate: 0.0003
+      learning_rate_schedule: linear
+      num_epoch: 8
+    keep_checkpoints: 5
+    max_steps: 50000
+    network_settings:
+      hidden_units: 274
+      normalize: true
+      num_layers: 2
+      vis_encode_type: simple
+    reward_signals:
+      extrinsic:
+        gamma: 0.999
+        strength: 0.5
+    summary_freq: 2176
+    time_horizon: 86
+    trainer_type: ppo
