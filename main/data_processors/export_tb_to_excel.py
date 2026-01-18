@@ -11,7 +11,7 @@ else:
     ITERATION = "default"
 
 DIR =os.path.dirname(os.path.abspath(__file__))#path of data_processors directory
-RESULT_DIR = os.path.join(DIR, "..","data", "excel_results")#directory where we will put our collected trainings
+RESULT_DIR = os.path.join(DIR, "..","data", "rawMeanReward_data")#directory where we will put our collected trainings
 os.makedirs(RESULT_DIR, exist_ok=True)#create directory if missing
 
 REPO_ROOT = os.path.abspath(os.path.join(DIR, "..", ".."))#this way we can access the results folder from anywhere
@@ -44,7 +44,7 @@ for event_file in event_files:
             reward_tag =candidates[0]
 
     if reward_tag is None:#if there is nothing similar or exact match we skip the file
-        print(f"No cumulative reward scalar in {event_file}. Available: {tags}")
+        print(f"No cumulative reward scalar in {event_file} Available: {tags}")
         continue
 
     events = ea.Scalars(reward_tag)
@@ -52,7 +52,7 @@ for event_file in event_files:
         all_rows.append({"step": e.step,"value": e.value})
 
 if not all_rows:
-    print("Found no reward scalars to aggregate.")
+    print("Found no reward scalars to aggregate")
     raise SystemExit(1)
 
 #sorts based on the steps(to make sure everything is ordered)

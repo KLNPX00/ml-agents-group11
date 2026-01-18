@@ -2,7 +2,8 @@ import os
 import yaml
 import numpy as np
 
-output_dir = "./configs" # this directory has to be addressed as it is different from Linux; the configs folder is not in the same subfolder, but many folders out
+DIR = os.path.dirname(os.path.abspath(__file__))#get the current directory
+OUTPUT_DIR=os.path.abspath(os.path.join(DIR, "..", "..","configs"))# this directory has to be addressed as it is different from Linux; the configs folder is not in the same subfolder, but many folders out
 num_samples = 60000
 samples_per_round = 1000
 """
@@ -29,7 +30,7 @@ categorical_vars = {
     "vis_encode_type": ["simple"]
 }
 
-os.makedirs(output_dir, exist_ok=True)
+os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # LHS Latin Hypercube Sampling (I  have to add a brief explanation here about it. What is it? How it works? Why is it needed?)
 def lhs_numpy(samples, dimensions):
@@ -71,10 +72,10 @@ for i in range(num_samples):
     file_num = i + 1
 
     round_number = (file_num - 1) // samples_per_round + 1
-    round_dir = os.path.join(output_dir, f"round{round_number}")
-    os.makedirs(round_dir, exist_ok=True)
+    ROUND_DIR = os.path.join(OUTPUT_DIR, f"round{round_number}")#we choose out of round 1 or 2
+    os.makedirs(ROUND_DIR, exist_ok=True)
 
-    yaml_path = os.path.join(round_dir, f"sample_{file_num}.yaml")
+    yaml_path = os.path.join(ROUND_DIR, f"sample_{file_num}.yaml")
 
 
     # YAML structure as provided by Unity's ML-Agents
@@ -116,4 +117,4 @@ for i in range(num_samples):
     with open(yaml_path, "w") as f:
         yaml.dump(yaml_dict, f)
 
-print(f"Generated {num_samples} YAML files in {output_dir}")
+print(f"Generated {num_samples} YAML files in {OUTPUT_DIR}")

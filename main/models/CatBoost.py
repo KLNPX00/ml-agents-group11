@@ -2,8 +2,10 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import r2_score
 from catboost import CatBoostRegressor
+import os
 
-csv_path = "complete-dataset.csv"
+DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT= os.path.abspath(os.path.join(DIR, "..", "data","complete-datasetRAMCPU.csv"))#we can also use the normalized data 
 # the target column is what the model predicts for
 # for the purpose of reproducability, I am thinking of moving this
 # to a config file or a command-line argument
@@ -11,7 +13,7 @@ target_columns = ["cpu_avg_python"]
 test_size = 0.2
 random_state = 42
 
-df = pd.read_csv(csv_path)
+df = pd.read_csv(INPUT)
 
 # keeps only numeric columns
 df = df.select_dtypes(include=["int64", "float64"])
