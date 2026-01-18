@@ -4,10 +4,12 @@ import matplotlib.pyplot as plt
 from sklearn.model_selection import train_test_split, learning_curve, GridSearchCV
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
+import os
 
 TIME_UNIT = 60000
-
-df = pd.read_csv('../../Total_data_question_2.csv')
+DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT=os.path.abspath(os.path.join(DIR, "..", "data","Total_data_question_2.xslx"))
+df = pd.read_csv(INPUT)
 X = df[['Mean Reward']]
 y = df['Step']
 
