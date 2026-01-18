@@ -4,7 +4,7 @@ from sklearn.metrics import r2_score
 from catboost import CatBoostRegressor
 import os
 
-DIR = os.path.dirname(os.path.abspath(__file__))
+DIR = os.path.dirname(os.path.abspath(__file__))#current directory
 INPUT= os.path.abspath(os.path.join(DIR, "..", "data","complete-datasetRAMCPU.csv"))#we can also use the normalized data 
 # the target column is what the model predicts for
 # for the purpose of reproducability, I am thinking of moving this

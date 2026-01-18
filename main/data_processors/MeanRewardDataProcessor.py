@@ -3,11 +3,11 @@ import pandas as pd
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))#get the path of the current folder
 DATA_DIR = os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data"))#go back one step to reach main and go to the data folder
-INPUT= os.path.join(DATA_DIR, "Total_data_question_2.xlsx")#file we get the data from(change if needed)
+INPUT= os.path.join(DATA_DIR, "Total_data_question_2.csv")#file we get the data from(change if needed)
 OUTPUT= os.path.join(DATA_DIR, "MeanReward_training_data.csv")#output file(change if needed)
 
 STEP_BIN = 60_000
-df = pd.read_excel(INPUT)
+df = pd.read_csv(INPUT)
 
 df = df.rename(columns={
     df.columns[0]: "nrSteps",

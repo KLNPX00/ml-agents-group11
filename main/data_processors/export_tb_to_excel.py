@@ -1,4 +1,3 @@
-# export_selected_metrics_computed_to_excel.py
 import os, glob, math
 import pandas as pd
 from tensorboard.backend.event_processing import event_accumulator

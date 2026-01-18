@@ -3,9 +3,12 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
 import lightgbm as lgb
 import numpy as np
+import os
 
 # Loads the training dataset
-dataFile = pd.read_csv("PushBlock-Final-Dataset-20260115.csv")
+DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT= os.path.abspath(os.path.join(DIR, "..", "data","complete-datasetRAMCPU.csv"))#we can also use the normalized data 
+dataFile = pd.read_csv("INPUT")
 
 # The target variable to be predicted
 target = "cpu_avg_python"
