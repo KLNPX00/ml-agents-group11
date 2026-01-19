@@ -7,9 +7,10 @@
 # These are command-line parameters
 CONFIG_FOLDER="$1"
 TRAINING_FILE="$2"
-
-CONFIG_DIR="./configs/$CONFIG_FOLDER"
-ENV_BINARY="./builds/mlagents-exec.x86_64"
+DIR="$(cd "$(dirname "$0")" && pwd)" #current directory
+ROOT="$(cd "$DIR/../../.." && pwd)" #root directory
+CONFIG_DIR="$ROOT/configs/$CONFIG_FOLDER"
+ENV_BINARY="$ROOT/builds/mlagents-exec.x86_64"
 OUTPUT_CSV="$TRAINING_FILE"
 
 # Here, we check if the file exists and has the relative header (hyperparameters and metrics)
@@ -37,7 +38,7 @@ for YAML_FILE in "$CONFIG_DIR"/*.yaml; do
     RUN_ID="$(basename "$YAML_FILE" .yaml)_$(date +%s)"
 
     # starts the logger in the background
-    python3 logger.py \
+    python3 "$ROOT/main/data_processors/cpu_ram_logger.py" \
         --unity-process-name "mlagents-exec.x86_64" \
         --python-process-name "mlagents-learn" \
         --interval 0.5 \

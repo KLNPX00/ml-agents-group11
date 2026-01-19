@@ -2,9 +2,10 @@
 
 # The aim of this code is to run all configs generated in our config folder
 # It uses the single training run file as a basis to do that
-
-BASE_DIR="./configs"
-DATA_DIR="./training_data"
+DIR="$(cd "$(dirname "$0")" && pwd)" #current directory
+ROOT="$(cd "$DIR/../../.." && pwd)" #root directory
+BASE_DIR="$ROOT/configs"
+DATA_DIR="$ROOT/main/data/rawRAMCPU_data"
 
 # loop through all rounds
 for ROUND_DIR in $(ls -d "$BASE_DIR"/round* | sort -V); do
@@ -15,7 +16,7 @@ for ROUND_DIR in $(ls -d "$BASE_DIR"/round* | sort -V); do
     echo "Metrics will be saved to $OUTPUT_CSV"
 
     # uses the single run training shell script and passes command parameters from here
-    ./run_training.sh "$ROUND_NAME" "$OUTPUT_CSV"
+    "$DIR/run_training.sh" "$ROUND_NAME" "$OUTPUT_CSV"
 
     echo "=== Finished $ROUND_NAME ==="
 done
