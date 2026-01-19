@@ -4,12 +4,17 @@ import numpy as np
 
 DIR = os.path.dirname(os.path.abspath(__file__))#get the current directory
 OUTPUT_DIR=os.path.abspath(os.path.join(DIR, "..", "..","configs"))# this directory has to be addressed as it is different from Linux; the configs folder is not in the same subfolder, but many folders out
+
+"""
+The num_samples and samples_per_round parameters are used for our experiments.
+They could be updated, but we decided to use these throughout the project.
+"""
 num_samples = 60000
 samples_per_round = 1000
+
 """
 In the Linux machine we ran the code, the amount of available cpu cores was 6.
-But in different Linux environments, it will be different.
-Windows probably takes the default 1.
+But in different Linux environments, it will be different. For Windows, it is often 1.
 """
 cpu_cores = 6
 np.random.seed(42)
@@ -32,7 +37,12 @@ categorical_vars = {
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
-# LHS Latin Hypercube Sampling (I  have to add a brief explanation here about it. What is it? How it works? Why is it needed?)
+"""
+LHS Latin Hypercube Sampling is used to generate random parameters for ml-agents training.
+It generates samples of random parameters from a multidimensional distribution. The reason 
+we use it is because it provides a more controlled distribution because it creates clusters 
+of parameters, so it is more probable that all clusters will be represented. 
+"""
 def lhs_numpy(samples, dimensions):
     cut = np.linspace(0, 1, samples + 1)
     result = np.zeros((samples, dimensions))
