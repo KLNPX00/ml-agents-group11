@@ -8,7 +8,7 @@ import os
 
 TIME_UNIT = 60000
 DIR = os.path.dirname(os.path.abspath(__file__))#directory of current file
-INPUT=os.path.abspath(os.path.join(DIR, "..", "data","Total_data_question_2.csv"))#data found in the data directory
+INPUT=os.path.abspath(os.path.join(DIR, "..", "data","MeanReward_training_data.csv"))#data found in the data directory
 df = pd.read_csv(INPUT)
 X = df[['Mean Reward']]
 y = df['Step']

@@ -6,7 +6,7 @@ from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import os
 
 SCRIPT_DIR= os.path.dirname(os.path.abspath(__file__))#current directory
-INPUT =os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data","Total_data_question_2.csv"))#reaching the data by going to the data directory
+INPUT =os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data","MeanReward_training_data.csv"))#reaching the data by going to the data directory
 
 df = pd.read_csv(INPUT)
 
