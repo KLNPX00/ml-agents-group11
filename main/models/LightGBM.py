@@ -1,3 +1,4 @@
+import argparse
 import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
@@ -5,13 +6,20 @@ import lightgbm as lgb
 import numpy as np
 import os
 
+# Logic to take parameters out of the command line and execute experiments
+parser = argparse.ArgumentParser()
+parser.add_argument("--metric", type=str, default="cpu_avg_python")
+parser.add_argument("--dataset", type=str, default="complete-datasetRAMCPU.csv")
+
+args = parser.parse_args()
+
 # Loads the training dataset
 DIR = os.path.dirname(os.path.abspath(__file__))
-INPUT= os.path.abspath(os.path.join(DIR, "..", "data","complete-datasetRAMCPU.csv"))#we can also use the normalized data 
+INPUT= os.path.abspath(os.path.join(DIR, "..", "data",args.dataset))#we can also use the normalized data 
 dataFile = pd.read_csv(INPUT)
 
 # The target variable to be predicted
-target = "cpu_avg_python"
+target = args.metric
 
 # Remove ID columns and seperate features from targets
 removeCols = ["run_id"]
