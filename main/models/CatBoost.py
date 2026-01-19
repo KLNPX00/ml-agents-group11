@@ -5,7 +5,15 @@ from sklearn.metrics import r2_score
 from catboost import CatBoostRegressor
 import os
 
-# Logic to take parameters out of the command line and execute experiments
+"""
+Logic to get arguments from the command line to run different experiments.
+It aims to facilitate the code running process for new users and avoid the
+need to update parameters inside the code, but provide a more organized
+way through a documented command line. Also, the two parameters that we 
+used for our experiments in the CatBoost were the metric (for the processing 
+metric we predict for) and dataset (for the dataset the prediction will 
+happen based on).
+"""
 parser = argparse.ArgumentParser()
 parser.add_argument("--metric", type=str, default="cpu_avg_python")
 parser.add_argument("--dataset", type=str, default="complete-datasetRAMCPU.csv")
@@ -14,12 +22,8 @@ args = parser.parse_args()
 
 DIR = os.path.dirname(os.path.abspath(__file__))#current directory
 INPUT= os.path.abspath(os.path.join(DIR, "..", "data",args.dataset))#we can also use the normalized data 
-# the target column is what the model predicts for
-# for the purpose of reproducability, I am thinking of moving this
-# to a config file or a command-line argument
 
 target_columns = [args.metric]
-# target_columns = ["cpu_avg_python"] # backup in case I break it
 test_size = 0.2
 random_state = 42
 
@@ -53,7 +57,7 @@ model.fit(X_train, y_train.values.ravel())
 
 y_pred = model.predict(X_test)
 
-score = r2_score(y_test, y_pred) # counts accuracy
+score = r2_score(y_test, y_pred)
 
 print("Model: CatBoost")
 print("Target:", target_columns)
