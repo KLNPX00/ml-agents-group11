@@ -6,7 +6,16 @@ import lightgbm as lgb
 import numpy as np
 import os
 
-# Logic to take parameters out of the command line and execute experiments
+"""
+Logic to get arguments from the command line to run different experiments.
+It aims to facilitate the code running process for new users and avoid the
+need to update parameters inside the code, but provide a more organized
+way through a documented command line. Also, the two parameters that we 
+used for our experiments in the CatBoost were the metric (for the processing 
+metric we predict for) and dataset (for the dataset the prediction will 
+happen based on).
+"""
+
 parser = argparse.ArgumentParser()
 parser.add_argument("--metric", type=str, default="cpu_avg_python")
 parser.add_argument("--dataset", type=str, default="complete-datasetRAMCPU.csv")
