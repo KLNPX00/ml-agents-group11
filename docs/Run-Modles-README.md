@@ -11,6 +11,7 @@ pip install scikit-learn
 -   GradientBoostingDecisionTrees
 -   RandomForestRegressor
 -   KNN
+-   DecisionForests
 
 ###### To run the models:
 
@@ -27,16 +28,17 @@ This will run the models with a set parameter for a mean reward of 4 and the out
 
 ###### To run the models:
 
-* CatBoost: python CatBoost.py --metric ram_peak_python --dataset dataset-1000.csv
-* LightGBM: python LightGBM.py --metric ram_peak_python --dataset dataset-1000.csv
+-   CatBoost: python CatBoost.py --metric ram_peak_python --dataset dataset-1000.csv
+-   LightGBM: python LightGBM.py --metric ram_peak_python --dataset dataset-1000.csv
 
 "ram_peak_python" can be replaced with these options:
-- cpu_avg_unity
-- cpu_peak_unity
-- ram_avg_unity
-- ram_peak_unity
-- cpu_avg_python
-- cpu_peak_python
-- ram_avg_python
+
+-   cpu_avg_unity
+-   cpu_peak_unity
+-   ram_avg_unity
+-   ram_peak_unity
+-   cpu_avg_python
+-   cpu_peak_python
+-   ram_avg_python
 
 dataset-1000.csv is just a name of the file with data; any such file under data directory would work too.
