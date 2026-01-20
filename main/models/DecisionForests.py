@@ -1,3 +1,4 @@
+import argparse
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,9 +7,15 @@ from sklearn.ensemble import RandomForestRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import os
 
+
+parser = argparse.ArgumentParser()
+parser.add_argument("--dataset", type=str, default="MeanReward_training_data.csv")
+
+args = parser.parse_args()
+
 TIME_UNIT = 60000
 DIR = os.path.dirname(os.path.abspath(__file__))#directory of current file
-INPUT=os.path.abspath(os.path.join(DIR, "..", "data","MeanReward_training_data.csv"))#data found in the data directory
+INPUT=os.path.abspath(os.path.join(DIR, "..", "data",args.dataset))#data found in the data directory
 df = pd.read_csv(INPUT)
 X = df[['Mean Reward']]
 y = df['Step']
