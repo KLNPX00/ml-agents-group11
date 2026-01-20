@@ -19,6 +19,10 @@ python main/training_files/TrainingStop.py
 This will start the data collection. The data collected will be only of the mean reward and the step at which is achieved.
 It will be saved in the folder "main/data/rawMeanReward_data"
 
+After collecting the data, you will need to merge all the excel files into one. To do so, please follow the instructions in the following video:
+https://www.youtube.com/watch?v=vfskquGoeG4
+
+
 ### run_all_rounds.sh
 You need to cd into the folder "\main\training_files\linux_setup" using the follwong command:
 
