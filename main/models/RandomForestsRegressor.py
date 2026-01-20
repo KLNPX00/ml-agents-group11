@@ -1,3 +1,4 @@
+import argparse
 
 import pandas as pd
 import numpy as np
@@ -6,8 +7,14 @@ from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import os
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--meanrew", type=float, default=4.0)
+parser.add_argument("--dataset", type=str, default="MeanReward_training_data.csv")
+
+args = parser.parse_args()
+
 SCRIPT_DIR= os.path.dirname(os.path.abspath(__file__))#current directory
-INPUT =os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data","MeanReward_training_data.csv"))#reaching the data by going to the data directory
+INPUT =os.path.abspath(os.path.join(SCRIPT_DIR, "..", "data",args.dataset))#reaching the data by going to the data directory
 
 df = pd.read_csv(INPUT)
 
@@ -67,7 +74,7 @@ def predict_steps_for_reward(target_reward):
     return int(prediction)
 
 #example predictions
-target_rewards = [2.0,3.0, 4.0, 5.0]
+target_rewards = [args.meanrew]
 for reward in target_rewards:
     steps = predict_steps_for_reward(reward)
     print(f"To reach mean reward of {reward:.1f}: ~{steps:,} steps")

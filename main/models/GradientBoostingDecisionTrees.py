@@ -1,3 +1,5 @@
+import argparse
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -6,9 +8,16 @@ from sklearn.model_selection import train_test_split, learning_curve
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
+parser = argparse.ArgumentParser()
+parser.add_argument("--meanrew", type=float, default=4.0)
+parser.add_argument("--dataset", type=str, default="MeanReward_training_data.csv")
+
+args = parser.parse_args()
+
+
 TIME_UNIT = 60000
 DIR = os.path.dirname(os.path.abspath(__file__))
-INPUT=os.path.abspath(os.path.join(DIR, "..", "data","MeanReward_training_data.csv"))
+INPUT=os.path.abspath(os.path.join(DIR, "..", "data", args.dataset))
 df = pd.read_csv(INPUT)
 X = df[['Mean Reward']]
 y = df['Step']
@@ -24,7 +33,7 @@ model_mid.fit(X_train, y_train)
 model_high = GradientBoostingRegressor(loss='quantile', alpha=0.9, n_estimators=1000)
 model_high.fit(X_train, y_train)
 
-target_reward = 4.0
+target_reward = args.meanrew
 target = pd.DataFrame([[target_reward]], columns=['Mean Reward'])
 
 step_early = model_low.predict(target)[0]

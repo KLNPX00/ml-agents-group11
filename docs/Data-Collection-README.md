@@ -14,15 +14,15 @@ https://git-scm.com/downloads and choose your operating system.
 ## Running the script
 ### TrainingStop.py
 To run the TrainingStop.py script, please run the following command:
-python main\training_files\TrainingStop.py
+python main/training_files/TrainingStop.py
 
 This will start the data collection. The data collected will be only of the mean reward and the step at which is achieved.
-It will be saved in the folder "main\data\rawMeanReward_data"
+It will be saved in the folder "main/data/rawMeanReward_data"
 
 ### run_all_rounds.sh
 You need to cd into the folder "\main\training_files\linux_setup" using the follwong command:
 
-cd "you will need to add the previous part of the whole directory"\main\training_files\linux_setup
+cd "you will need to add the previous part of the whole directory"/main/training_files/linux_setup
 run the following commands:
 
 * chmod +x run_training.sh
