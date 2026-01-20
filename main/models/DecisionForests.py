@@ -9,6 +9,7 @@ import os
 
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--meanrew", type=float, default=4.0)
 parser.add_argument("--dataset", type=str, default="MeanReward_training_data.csv")
 
 args = parser.parse_args()
@@ -31,7 +32,7 @@ grid_search.fit(X_train, y_train)
 
 best_rf = grid_search.best_estimator_
 
-target_reward = 4.0
+target_reward = args.meanrew
 prediction = best_rf.predict(pd.DataFrame([[target_reward]], columns=['Mean Reward']))[0]
 
 print(f"Best Parameters Found: {grid_search.best_params_}")
