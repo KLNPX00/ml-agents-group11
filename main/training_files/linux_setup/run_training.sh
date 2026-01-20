@@ -10,7 +10,9 @@ TRAINING_FILE="$2"
 DIR="$(cd "$(dirname "$0")" && pwd)" #current directory
 ROOT="$(cd "$DIR/../../.." && pwd)" #root directory
 CONFIG_DIR="$ROOT/configs/$CONFIG_FOLDER"
-ENV_BINARY="$ROOT/builds/mlagents-exec.x86_64"
+#CHANGE THE NEXT LINE IF IT NEEDS TO USE LINUX AND COMMENT OUT THE NEXT ONE
+#ENV_BINARY="$ROOT/builds/mlagents-exec.x86_64"
+ENV_BINARY="$ROOT/build/UnityEnvironment.exe"
 OUTPUT_CSV="$TRAINING_FILE"
 
 # Here, we check if the file exists and has the relative header (hyperparameters and metrics)

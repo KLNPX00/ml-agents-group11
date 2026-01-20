@@ -1,13 +1,12 @@
 # Data Collection
-To run the automated data collection you need some prerequisites.
 
 ## Prerequisites
 Within the mlagents environment in the conda terminal (please refer to the installation guide) you need to install 
 the following packages:
 
-pip install pandas 
-
-pip install tensorboard
+* pip install pandas 
+* pip install tensorboard 
+* pip install psutil
 
 You will also need gitBash to run the bash script. For that download and install it from the following link:
 https://git-scm.com/downloads and choose your operating system.
@@ -26,7 +25,9 @@ You need to cd into the folder "\main\training_files\linux_setup" using the foll
 cd "you will need to add the previous part of the whole directory"\main\training_files\linux_setup
 run the following commands:
 
-chmod +x run_training.sh
-chmod +x run_all_rounds.sh
-./run_all_rounds.sh
-//ask nikolaos for more info
+* chmod +x run_training.sh
+* chmod +x run_all_rounds.sh
+* ./run_all_rounds.sh
+
+#### For the purposes of your experimentation we have deleted some of the "done" files in round 1.If you want to see how it would look after it is done training just look at round 2
+#### If you wish to run the script on your linux machine please open the run_training.sh file and comment out the indicated line in the code.
