@@ -15,9 +15,11 @@ pip install scikit-learn
 
 ###### To run the models:
 
--   python "filename".py
+-   python "filename".py (this assumes that the csv file you desire is the same we used and the mean reward is of 4)
+-   python "filename".py --meanrew [reward number ] --dataset [dataset name]
 -   Example: python GradientBoostingDecisionTrees.py
--   It may require the full path of the file instead of just the filename.
+-   Example: python GradientBoostingDecisionTrees.py --meanrew 2.0 --dataset MeanReward_training_data.csv
+-   It may require the full path of the python file instead of just the filename.
 
 This will run the models with a set parameter for a mean reward of 4 and the output will be displayed in the terminal.
 
