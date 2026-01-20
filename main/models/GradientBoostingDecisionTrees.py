@@ -1,14 +1,14 @@
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
-
+import os
 from sklearn.model_selection import train_test_split, learning_curve
 from sklearn.ensemble import GradientBoostingRegressor
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
 TIME_UNIT = 60000
-DIR = os.path.dirname(os.path.abspath(__file__))#directory of current file
-INPUT=os.path.abspath(os.path.join(DIR, "..", "data","MeanReward_training_data.csv"))#data found in the data directory
+DIR = os.path.dirname(os.path.abspath(__file__))
+INPUT=os.path.abspath(os.path.join(DIR, "..", "data","MeanReward_training_data.csv"))
 df = pd.read_csv(INPUT)
 X = df[['Mean Reward']]
 y = df['Step']
@@ -37,7 +37,6 @@ print(f"Most likely: {int(round(step_mid / TIME_UNIT))} TU")
 print(f"Latest possible: {int(round(step_late / TIME_UNIT))} TU")
 
 
-
 train_sizes, train_scores, test_scores = learning_curve(model_mid,X,y,cv=5,scoring='neg_mean_absolute_error',n_jobs=-1,train_sizes=np.linspace(0.1, 1.0, 5))
 
 train_scores_mean = -np.mean(train_scores, axis=1) / TIME_UNIT
@@ -57,7 +56,8 @@ plt.show()
 def get_metrics_tu(model, X_train, y_train, X_test, y_test, alpha):
     train_pred = model.predict(X_train)
     test_pred = model.predict(X_test)
-    return {"Alpha": alpha,"Train MAE in TU": mean_absolute_error(y_train, train_pred) / TIME_UNIT,"Test MAE in TU": mean_absolute_error(y_test, test_pred) / TIME_UNIT,"Test R^2": r2_score(y_test, test_pred)}
+    test_acc = np.mean(np.abs(y_test - test_pred) <= TIME_UNIT)
+    return {"Alpha": alpha,"Train MAE in TU": mean_absolute_error(y_train, train_pred) / TIME_UNIT,"Test MAE in TU": mean_absolute_error(y_test, test_pred) / TIME_UNIT,"Test R^2": r2_score(y_test, test_pred),"Accuracy (+/- 1 TU)": f"{test_acc:.2%}"}
 
 results = [
     get_metrics_tu(model_low, X_train, y_train, X_test, y_test, 0.1),
