@@ -1,7 +1,7 @@
 import argparse
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import r2_score
+from sklearn.metrics import (r2_score, mean_absolute_error, root_mean_squared_error)
 from catboost import CatBoostRegressor
 import os
 
@@ -61,4 +61,8 @@ score = r2_score(y_test, y_pred)
 
 print("Model: CatBoost")
 print("Target:", target_columns)
-print(f"R² score: {score:.4f}")
+print(f"R^2 score: {score:.4f}")
+
+print("RMSE:", root_mean_squared_error(y_test, y_pred))
+print("MAE:", mean_absolute_error(y_test, y_pred))
+print("R^2:", r2_score(y_test, y_pred))
